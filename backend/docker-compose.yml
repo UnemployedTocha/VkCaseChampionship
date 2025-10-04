@@ -1,0 +1,26 @@
+services:
+  demo_service:
+    build: ./
+    command: ./demo_service
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_INTERNAL_PORT}"
+    depends_on:
+      - db
+    env_file:
+      - .env
+  db:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_INTERNAL_PORT}"
+
+
+
+
+volumes:
+  postgres_data:
