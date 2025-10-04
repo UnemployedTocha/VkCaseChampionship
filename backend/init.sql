@@ -6,7 +6,7 @@ CREATE TABLE categories
 
 CREATE TABLE apps
 (
-    id SERIAL PRIMARY KEY,
+    id PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     icon_url TEXT,
     short_description TEXT,
@@ -19,7 +19,7 @@ CREATE TABLE apps
 
 CREATE TABLE screenshots
  (
-    id SERIAL PRIMARY KEY,
+    id PRIMARY KEY,
     app_id INT NOT NULL REFERENCES apps(id) ON DELETE CASCADE,
     url TEXT NOT NULL
 );
