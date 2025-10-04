@@ -14,15 +14,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.appandroid.model.App
+import com.example.appandroid.model.Screenshot
 
 @Composable
-fun AppDetailScreen(app: AppDetailUiModel) {
+fun AppDetailScreen(app: App) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
                     .size(64.dp)
-                    .background(Color.Gray) // иконка-заглушка
+                    .background(Color.Gray) // TODO: иконка по app.icon_url через Coil
             )
             Spacer(Modifier.width(12.dp))
             Column {
@@ -30,55 +32,55 @@ fun AppDetailScreen(app: AppDetailUiModel) {
                 Text(app.developer)
             }
             Spacer(Modifier.weight(1f))
-            Text(app.ageRating, color = Color.Red)
+            Text(app.age_rating, color = Color.Red)
         }
 
         Spacer(Modifier.height(16.dp))
 
-        Button(onClick = { }) {
+        Button(onClick = { /* TODO: установка */ }) {
             Text("Установить")
         }
 
         Spacer(Modifier.height(16.dp))
-        Text("Категория: ${app.categoryName}", fontWeight = FontWeight.Medium)
+        Text("Категория: ${app.category_id}", fontWeight = FontWeight.Medium) // пока ID
 
         Spacer(Modifier.height(12.dp))
         LazyRow {
-            items(app.screenshots) { _ ->
+            items(app.screenshots) { shot ->
                 Box(
                     modifier = Modifier
                         .size(width = 120.dp, height = 240.dp)
                         .background(Color.LightGray)
                         .padding(4.dp)
                 )
+                // TODO: картинка по shot.url через Coil
             }
         }
 
         Spacer(Modifier.height(16.dp))
         Text("Описание", fontWeight = FontWeight.Bold)
-        Text(app.fullDescription ?: "Нет описания")
+        Text(app.full_description)
     }
 }
-
-data class AppDetailUiModel(
-    val name: String,
-    val developer: String,
-    val ageRating: String,
-    val categoryName: String,
-    val screenshots: List<String>,
-    val fullDescription: String?
-)
 
 @Preview(showBackground = true)
 @Composable
 fun AppDetailScreenPreview() {
-    val mockApp = AppDetailUiModel(
+    val mockApp = App(
+        id = 1,
         name = "Max",
+        icon_url = "https://example.com/icon.png",
+        short_description = "Ваш браузер…",
+        full_description = "Популярные разрешения включают HD (1280×720)...",
+        category_id = 2,
         developer = "MEOW GAME",
-        ageRating = "18+",
-        categoryName = "Финансы",
-        screenshots = listOf("url1", "url2", "url3"),
-        fullDescription = "Популярные разрешения включают HD (1280×720)..."
+        age_rating = "18+",
+        apk_url = "https://example.com/app.apk",
+        screenshots = listOf(
+            Screenshot(1, "https://example.com/shot1.png"),
+            Screenshot(2, "https://example.com/shot2.png"),
+            Screenshot(3, "https://example.com/shot3.png")
+        )
     )
     AppDetailScreen(app = mockApp)
 }

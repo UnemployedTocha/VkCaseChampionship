@@ -14,10 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.appandroid.model.App
+import com.example.appandroid.model.Screenshot
 
 @Composable
 fun AppListScreen(
-    apps: List<AppUiModel>,
+    apps: List<App>,
     onAppClick: (Int) -> Unit,
     onCategoryClick: () -> Unit
 ) {
@@ -38,7 +40,7 @@ fun AppListScreen(
                         .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Иконка (заглушка)
+                    // Иконка (заглушка, позже можно Coil подключить)
                     Box(
                         modifier = Modifier
                             .size(48.dp)
@@ -50,9 +52,9 @@ fun AppListScreen(
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(app.name, fontWeight = FontWeight.Bold)
-                        Text(app.shortDescription ?: "Ваш браузер…")
+                        Text(app.short_description)
                         Text(
-                            "Категория: ${app.categoryName}",
+                            "Категория: ${app.category_id}", // пока id, потом имя категории
                             fontSize = 12.sp,
                             color = Color.DarkGray
                         )
@@ -63,19 +65,35 @@ fun AppListScreen(
     }
 }
 
-data class AppUiModel(
-    val id: Int,
-    val name: String,
-    val shortDescription: String?,
-    val categoryName: String?
-)
-
 @Preview(showBackground = true)
 @Composable
 fun AppListScreenPreview() {
     val mockApps = listOf(
-        AppUiModel(1, "Max: общение", "Ваш браузер…", "Финансы"),
-        AppUiModel(2, "Max: общение", "Ваш браузер…", "Финансы")
+        App(
+            id = 1,
+            name = "Max: общение",
+            icon_url = "https://example.com/icon.png",
+            short_description = "Ваш браузер…",
+            full_description = "Подробное описание приложения...",
+            category_id = 2,
+            developer = "Meow Game",
+            age_rating = "18+",
+            apk_url = "https://example.com/app.apk",
+            screenshots = listOf(Screenshot(1, "https://example.com/shot1.png"))
+        ),
+        App(
+            id = 2,
+            name = "Max: браузер",
+            icon_url = "https://example.com/icon2.png",
+            short_description = "Лучший браузер",
+            full_description = "Длинное описание второго приложения...",
+            category_id = 3,
+            developer = "Max Devs",
+            age_rating = "12+",
+            apk_url = "https://example.com/app2.apk",
+            screenshots = emptyList()
+        )
     )
+
     AppListScreen(apps = mockApps, onAppClick = {}, onCategoryClick = {})
 }
