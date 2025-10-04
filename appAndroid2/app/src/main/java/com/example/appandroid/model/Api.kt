@@ -4,6 +4,12 @@ package com.example.appandroid.model
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class Categories(
+    val id: Int,
+    val name:  String
+)
+
+@Serializable
 data class Screenshot(
     val id: Int,
     val url: String
