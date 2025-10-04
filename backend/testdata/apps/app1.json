@@ -1,0 +1,12 @@
+ {
+    "id": 457,
+    "name": "Galaxy Raiders",
+    "icon_url": "https://dummyimage.com/512x512/000/fff&text=GalaxyRaiders",
+    "short_description": "Захватывающая космическая стратегия в реальном времени.",
+    "full_description": "Возглавьте свой флот в эпических битвах за господство в галактике. Исследуйте новые миры, добывайте ресурсы и формируйте альянсы, чтобы стать величайшим командиром вселенной.",
+    "category_id": 12,
+    "developer": "Nebula Games Inc.",
+    "age_rating": "12+",
+    "apk_url": "https://example.com/apk/galaxy_raiders_v2.1.apk",
+    "screenshots": []
+}

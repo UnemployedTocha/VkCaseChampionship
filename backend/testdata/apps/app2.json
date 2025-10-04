@@ -1,0 +1,12 @@
+  {
+    "id": 128,
+    "name": "Cookie Craft",
+    "icon_url": "https://dummyimage.com/512x512/f0a8e0/fff&text=CookieCraft",
+    "short_description": "Сладкая ферма и пекарня для всей семьи!",
+    "full_description": "Выращивайте ингредиенты, пеките восхитительные печенья и украшайте их в своей собственной кондитерской. Участвуйте в конкурсах и торгуйте с друзьями!",
+    "category_id": 7,
+    "developer": "Sweetplay Studios",
+    "age_rating": "3+",
+    "apk_url": "https://example.com/apk/cookie_craft_1.5.3.apk",
+    "screenshots": []
+  }

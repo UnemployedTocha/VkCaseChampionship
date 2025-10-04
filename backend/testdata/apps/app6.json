@@ -1,0 +1,12 @@
+   {
+   "id": 421,
+    "name": "Magic Garden",
+    "icon_url": "https://dummyimage.com/512x512/44dd44/fff&text=MagicGarden",
+    "short_description": "Расслабляющий симулятор садовода-волшебника.",
+    "full_description": "Выращивайте магические растения, ухаживайте за фантастическими существами и создайте свой райский уголок. Колдуйте над своими грядками, чтобы получить уникальные гибриды!",
+    "category_id": 15,
+    "developer": "Calm Play",
+    "age_rating": "3+",
+    "apk_url": "https://example.com/apk/magic_garden_1.0.8.apk",
+    "screenshots": []
+  }

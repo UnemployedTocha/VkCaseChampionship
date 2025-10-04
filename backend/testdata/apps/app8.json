@@ -1,0 +1,12 @@
+  {
+    "id": 654,
+    "name": "Bubble Pop Mania",
+    "icon_url": "https://dummyimage.com/512x512/ff55ee/fff&text=BubblePop",
+    "short_description": "Классическая игра, где нужно лопать шарики.",
+    "full_description": "Наслаждайтесь красочным миром, где нужно соединять три и более одинаковых шарика, чтобы лопнуть их. Пройдите сотни уровней с разными целями и бонусами.",
+    "category_id": 6,
+    "developer": "Casual Fun Co.",
+    "age_rating": "3+",
+    "apk_url": "https://example.com/apk/bubble_pop_mania_12.9.apk",
+    "screenshots": []
+  }

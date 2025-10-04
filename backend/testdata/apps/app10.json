@@ -1,0 +1,12 @@
+  {
+    "id": 888,
+    "name": "Office Escape",
+    "icon_url": "https://dummyimage.com/512x512/555555/fff&text=OfficeEscape",
+    "short_description": "Головоломка-побег из скучного офиса.",
+    "full_description": "Используйте логику и находчивость, чтобы решить загадки, найти спрятанные предметы и сбежать с монотонной работы. У вас есть 5 дней до дедлайна!",
+    "category_id": 5,
+    "developer": "Indie Puzzle Box",
+    "age_rating": "10+",
+    "apk_url": "https://example.com/apk/office_escape_2.3.apk",
+    "screenshots": []
+  }

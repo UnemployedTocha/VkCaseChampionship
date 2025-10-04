@@ -1,0 +1,12 @@
+  {
+    "id": 33,
+    "name": "Puzzle Islands",
+    "icon_url": "https://dummyimage.com/512x512/2a7bff/fff&text=PuzzleIslands",
+    "short_description": "Соединяйте острова, чтобы раскрыть их тайны.",
+    "full_description": "Решайте сотни головоломок на соединение элементов, чтобы восстановить древний архипелаг. Каждый уровень открывает часть увлекательной истории о затерянной цивилизации.",
+    "category_id": 5,
+    "developer": "Brainy Bytes",
+    "age_rating": "6+",
+    "apk_url": "https://example.com/apk/puzzle_islands_3.0.1.apk",
+    "screenshots": []
+  }

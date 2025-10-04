@@ -1,0 +1,12 @@
+  {
+    "id": 2056,
+    "name": "Epic Conquest: Legends",
+    "icon_url": "https://dummyimage.com/512x512/c2850c/fff&text=EpicConquest",
+    "short_description": "РПГ с открытым миром и глубоким сюжетом.",
+    "full_description": "Станьте легендой в огромном фэнтезийном мире. Выбирайте класс, осваивайте могущественные заклинания, находите спутников и сразитесь с древним злом, угрожающим королевству.",
+    "category_id": 1,
+    "developer": "RPG Masters",
+    "age_rating": "14+",
+    "apk_url": "https://example.com/apk/epic_conquest_legends_5.4.apk",
+    "screenshots": []
+  }

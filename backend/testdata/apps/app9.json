@@ -1,0 +1,12 @@
+ {
+    "id": 3100,
+    "name": "Soccer Fury 2024",
+    "icon_url": "https://dummyimage.com/512x512/00aa22/fff&text=SoccerFury",
+    "short_description": "Мобильный футбол нового поколения.",
+    "full_description": "Почувствуйте адреналин на футбольном поле! Реалистичная графика, интуитивное управление и множество лиг и турниров. Создайте свою dream team и ведите ее к победе!",
+    "category_id": 11,
+    "developer": "Sports Interactive",
+    "age_rating": "7+",
+    "apk_url": "https://example.com/apk/soccer_fury_2024_24.1.apk",
+    "screenshots": []
+  }

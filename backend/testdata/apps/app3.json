@@ -1,0 +1,12 @@
+ {
+    "id": 8912,
+    "name": "Shadow Run",
+    "icon_url": "https://dummyimage.com/512x512/333/fff&text=ShadowRun",
+    "short_description": "Бесконечный раннер в стиле киберпанк.",
+    "full_description": "Прокачайте своего кибер-агента, уворачивайтесь от препятствий и сражайтесь с охранниками в неоновых улицах будущего мегаполиса. Откройте все секретные миссии!",
+    "category_id": 2,
+    "developer": "Neon Pixel LLC",
+    "age_rating": "9+",
+    "apk_url": "https://example.com/apk/shadow_run_4.7.apk",
+    "screenshots": []
+  }

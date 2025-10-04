@@ -1,0 +1,12 @@
+  {
+    "id": 7765,
+    "name": "Street Rivals DX",
+    "icon_url": "https://dummyimage.com/512x512/ff2200/fff&text=StreetRivals",
+    "short_description": "Дрифт, турбо и драйв на улицах города!",
+    "full_description": "Соберите свою коллекцию мощных тачек, настройте их под свой стиль и докажите, что вы лучший уличный гонщик в онлайн-соревнованиях по всему миру.",
+    "category_id": 9,
+    "developer": "Gearhead Games",
+    "age_rating": "10+",
+    "apk_url": "https://example.com/apk/street_rivals_dx_7.2.apk",
+    "screenshots": []
+  }
