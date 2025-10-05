@@ -6,7 +6,7 @@ CREATE TABLE categories
 
 CREATE TABLE apps
 (
-    id PRIMARY KEY,
+    id INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     icon_url TEXT,
     short_description TEXT,
@@ -19,8 +19,19 @@ CREATE TABLE apps
 
 CREATE TABLE screenshots
  (
-    id PRIMARY KEY,
+    id INT PRIMARY KEY,
     app_id INT NOT NULL REFERENCES apps(id) ON DELETE CASCADE,
     url TEXT NOT NULL
 );
 
+INSERT INTO categories (name) VALUES
+('Экшен'),
+('Стратегии'),
+('Ролевые игры'),
+('Гонки'),
+('Головоломки'),
+('Аркады'),
+('Симуляторы'),
+('Спортивные'),
+('Приключения'),
+('Казуальные игры');

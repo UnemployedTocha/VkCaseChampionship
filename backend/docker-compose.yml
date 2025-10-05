@@ -5,6 +5,7 @@ services:
     ports:
       - "${SERVICE_PORT}:${SERVICE_INTERNAL_PORT}"
     depends_on:
+      - producer
       - db
     env_file:
       - .env
