@@ -16,78 +16,65 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
     appViewModel: AppViewModel = viewModel()
 ) {
+    // Подписываемся на состояния
+    val appsState = appViewModel.apps.collectAsState()
+    val categoriesState = appViewModel.categories.collectAsState()
+    val isLoadingApps = appViewModel.isLoading.collectAsState()
+    val errorMessageApps = appViewModel.errorMessage.collectAsState()
+    val isLoadingCategories = appViewModel.isLoadingCategories.collectAsState()
+    val errorMessageCategories = appViewModel.categoriesError.collectAsState()
+
     NavHost(
         navController = navController,
         startDestination = "welcome",
         modifier = modifier
     ) {
-        // Экран приветствия
         composable("welcome") {
             WelcomeScreen(
                 onContinue = {
                     navController.navigate("apps")
-                    appViewModel.loadApps() // загружаем приложения при входе
+                    appViewModel.loadApps()
+                    appViewModel.loadCategories()
                 }
             )
         }
 
-        // Список приложений
         composable("apps") {
-            val appsState =
-                appViewModel.apps.collectAsState()       // реактивно собираем список приложений
-            val isLoading = appViewModel.isLoading.collectAsState()  // состояние загрузки
-            val errorMessage = appViewModel.errorMessage.collectAsState() // ошибки
-
             AppListScreen(
                 apps = appsState.value,
+                categories = categoriesState.value,
                 onAppClick = { app ->
                     navController.navigate("appDetail/${app.id}")
                 },
                 onCategoryClick = {
                     navController.navigate("categories")
                 },
-                isLoading = isLoading.value,
-                errorMessage = errorMessage.value
+                isLoading = isLoadingApps.value || isLoadingCategories.value,
+                errorMessage = errorMessageApps.value ?: errorMessageCategories.value
             )
         }
 
-        // Список категорий (пока что моки)
         composable("categories") {
-            val categoriesState = appViewModel.categories.collectAsState()
-            val isLoading = appViewModel.isLoadingCategories.collectAsState()
-            val errorMessage = appViewModel.categoriesError.collectAsState()
-
-            // Запускаем загрузку, если список пуст
-            if (categoriesState.value.isEmpty() && !isLoading.value) {
-                appViewModel.loadCategories()
-            }
-
             CategoryListScreen(
                 categories = categoriesState.value,
                 onCategoryClick = { categoryId ->
-                    // Например, можно фильтровать приложения по categoryId
-                    navController.navigate("apps")
-                },
-                isLoading = isLoading.value,
-                errorMessage = errorMessage.value
+                    navController.navigate("apps") // можно позже фильтровать по categoryId
+                }
             )
         }
 
-
         composable("appDetail/{appId}") { backStackEntry ->
             val appId = backStackEntry.arguments?.getString("appId")?.toIntOrNull()
-            if (appId != null) {
-                val appsState = appViewModel.apps.collectAsState()
-                val app = appsState.value.find { app -> app.id == appId }
-                if (app != null) {
-                    AppDetailScreen(
-                        app = app,
-                        onBack = { navController.popBackStack() }
-                    )
-                }
+            val app = appsState.value.find { it.id == appId }
+            if (app != null) {
+                AppDetailScreen(
+                    app = app,
+                    onBack = { navController.popBackStack() }
+                )
             }
         }
     }
 }
+
 
 
