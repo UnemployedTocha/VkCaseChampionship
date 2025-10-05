@@ -10,9 +10,12 @@ import (
 )
 
 const (
-	topic = "some_topic"
+	app_topic     = "app_topic"
+	ctgry_topic   = "category_topic"
+	scrnsht_topic = "screenshot_topic"
 )
 
+// TODO: написать нормально ахахахахахха)))))
 var apps_path = []string{"testdata/apps/app1.json", "testdata/apps/app2.json", "testdata/apps/app3.json",
 	"testdata/apps/app4.json", "testdata/apps/app5.json", "testdata/apps/app6.json",
 	"testdata/apps/app7.json", "testdata/apps/app8.json", "testdata/apps/app9.json",
@@ -46,7 +49,7 @@ func main() {
 	}
 
 	for _, app := range apps {
-		err = producer.ProduceApp(app, topic)
+		err = producer.ProduceApp(app, app_topic)
 
 		if err != nil {
 			fmt.Println("App producing error :(((")
@@ -59,7 +62,7 @@ func main() {
 	}
 
 	for _, ctgry := range categories {
-		err = producer.ProduceCategory(ctgry, topic)
+		err = producer.ProduceCategory(ctgry, ctgry_topic)
 
 		if err != nil {
 			fmt.Println("Category producing error :(((")
@@ -72,7 +75,7 @@ func main() {
 	}
 
 	for _, scrnsht := range screenshots {
-		err = producer.ProduceScreenshot(scrnsht, topic)
+		err = producer.ProduceScreenshot(scrnsht, scrnsht_topic)
 
 		if err != nil {
 			fmt.Println("Screenshot producing error :(((")
