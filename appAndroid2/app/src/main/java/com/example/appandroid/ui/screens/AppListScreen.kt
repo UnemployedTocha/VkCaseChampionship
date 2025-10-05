@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,10 +29,19 @@ fun AppListScreen(
     isLoading: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
+        // Заголовок
+        Text(
+            text = "Приложения",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
         Button(onClick = onCategoryClick) {
             Text("Список категорий →")
         }
@@ -51,31 +62,40 @@ fun AppListScreen(
                 )
             }
             else -> {
-                LazyColumn {
-                    items(apps) { app ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                                .background(Color.LightGray)
-                                .padding(8.dp)
-                                .clickable { onAppClick(app) },
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
+                // >>> ВОТ ТУТ ОБОРАЧИВАЕМ СПИСОК В СЕРЫЙ БЛОК
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(Color(0xFFE7E7E7)) // светло-серый фон
+                        .padding(8.dp)
+                ) {
+                    LazyColumn {
+                        items(apps) { app ->
+                            Row(
                                 modifier = Modifier
-                                    .size(48.dp)
-                                    .background(Color.Gray)
-                            )
-                            Spacer(Modifier.width(12.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(app.name, fontWeight = FontWeight.Bold)
-                                Text(app.short_description)
-                                Text(
-                                    "Категория: ${app.category_id}",
-                                    fontSize = 12.sp,
-                                    color = Color.DarkGray
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                                    .background(Color(0xFFE7E7E7)) // каждый элемент — белая карточка
+                                    .padding(8.dp)
+                                    .clickable { onAppClick(app) },
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .background(Color.Gray)
                                 )
+                                Spacer(Modifier.width(12.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(app.name, fontWeight = FontWeight.Bold)
+                                    Text(app.short_description)
+                                    Text(
+                                        "Категория: ${app.category_id}",
+                                        fontSize = 12.sp,
+                                        color = Color.DarkGray
+                                    )
+                                }
                             }
                         }
                     }
@@ -84,6 +104,7 @@ fun AppListScreen(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
