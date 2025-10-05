@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,13 +26,12 @@ import com.example.appandroid.model.Screenshot
 @Composable
 fun AppListScreen(
     apps: List<App>,
-    categories: List<Categories>, // список категорий
+    categories: List<Categories>,
     onAppClick: (App) -> Unit,
     onCategoryClick: () -> Unit,
     isLoading: Boolean = false,
     errorMessage: String? = null
 ) {
-    // Явно указываем тип Map
     val categoryMap: Map<Int, String> = categories.associateBy(
         { it.id },
         { it.name }
@@ -49,8 +49,22 @@ fun AppListScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        Button(onClick = onCategoryClick) {
-            Text("Список категорий →")
+        Button(
+            onClick = onCategoryClick,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF007BFF),
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+        ) {
+            Text(
+                text = "Список категорий →",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
+            )
         }
 
         Spacer(Modifier.height(16.dp))

@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.appandroid.R
 
-// ----------------- Кастомная форма дуги -----------------
 class TopArcShape(private val arcHeight: Float) : Shape {
     override fun createOutline(
         size: androidx.compose.ui.geometry.Size,
@@ -55,13 +54,12 @@ fun WelcomeScreen(onContinue: () -> Unit) {
                 .align(Alignment.BottomCenter)
                 .background(
                     color = Color(0xFF0056D2),
-                    shape = TopArcShape(arcHeight = 80f) // регулируем высоту изогнутого края
+                    shape = TopArcShape(arcHeight = 80f)
                 )
         )
-        // Верхний прямоугольник (например под статус-бар)
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.9f) // 90% ширины
+                .fillMaxWidth(0.9f)
                 .height(80.dp)
                 .align(Alignment.TopCenter)
                 .background(
@@ -77,7 +75,6 @@ fun WelcomeScreen(onContinue: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Логотип + название в Row
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -90,7 +87,7 @@ fun WelcomeScreen(onContinue: () -> Unit) {
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = "RuStore",
-                    color = Color(0xFF0056D2), // фирменный синий
+                    color = Color(0xFF0056D2),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -98,7 +95,6 @@ fun WelcomeScreen(onContinue: () -> Unit) {
 
             Spacer(Modifier.height(24.dp))
 
-            // Текст под логотипом
             Text(
                 "Пользуйтесь любимыми приложениями",
                 color = Color.Black,

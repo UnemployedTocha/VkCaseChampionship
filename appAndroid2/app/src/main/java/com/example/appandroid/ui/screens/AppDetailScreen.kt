@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +27,7 @@ import com.example.appandroid.model.Screenshot
 fun BackButton(onBack: () -> Unit) {
     Box(
         modifier = Modifier
-            .size(36.dp) // размер кнопки
+            .size(36.dp)
             .clickable { onBack() },
         contentAlignment = Alignment.Center
     ) {
@@ -43,7 +45,6 @@ fun AppDetailScreen(app: App, onBack: () -> Unit = {}) {
         .padding(16.dp)
     ) {
 
-        // Кнопка "назад" сверху слева
         Row(verticalAlignment = Alignment.CenterVertically) {
             BackButton(onBack = onBack)
             Spacer(Modifier.width(8.dp))
@@ -55,7 +56,7 @@ fun AppDetailScreen(app: App, onBack: () -> Unit = {}) {
             Box(
                 modifier = Modifier
                     .size(64.dp)
-                    .background(Color.Gray) // TODO: иконка по app.icon_url через Coil
+                    .background(Color.Gray)
             )
             Spacer(Modifier.width(12.dp))
             Column {
@@ -68,12 +69,26 @@ fun AppDetailScreen(app: App, onBack: () -> Unit = {}) {
 
         Spacer(Modifier.height(16.dp))
 
-        Button(onClick = { /* TODO: установка */ }) {
-            Text("Установить")
+        Button(
+            onClick = { /* установка */ },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF007BFF)
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+        ) {
+            Text(
+                text = "Установить",
+                color = Color.White,
+                fontSize = 16.sp
+            )
         }
 
+
         Spacer(Modifier.height(16.dp))
-        Text("Категория: ${app.category_id}", fontWeight = FontWeight.Medium) // пока ID
+        Text("Категория: ${app.category_id}", fontWeight = FontWeight.Medium)
 
         Spacer(Modifier.height(12.dp))
         LazyRow {
@@ -84,7 +99,7 @@ fun AppDetailScreen(app: App, onBack: () -> Unit = {}) {
                         .background(Color.LightGray)
                         .padding(4.dp)
                 )
-                // TODO: картинка по shot.url через Coil
+
             }
         }
 
