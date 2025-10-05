@@ -25,21 +25,23 @@ import com.example.appandroid.model.Screenshot
 @Composable
 fun AppListScreen(
     apps: List<App>,
-    categories: List<Categories>, // теперь сюда передаем список категорий
+    categories: List<Categories>, // список категорий
     onAppClick: (App) -> Unit,
     onCategoryClick: () -> Unit,
     isLoading: Boolean = false,
     errorMessage: String? = null
 ) {
-    // Для удобства: сразу словарь id -> название
-    val categoryMap = categories.associateBy({ it.id.toLong() }, { it.name })
+    // Явно указываем тип Map
+    val categoryMap: Map<Int, String> = categories.associateBy(
+        { it.id },
+        { it.name }
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Заголовок
         Text(
             text = "Приложения",
             fontSize = 28.sp,
@@ -67,11 +69,10 @@ fun AppListScreen(
                 )
             }
             else -> {
-                // серый блок для списка
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(24.dp)) // скругленные углы
+                        .clip(RoundedCornerShape(24.dp))
                         .background(Color(0xFFE7E7E7))
                         .padding(8.dp)
                 ) {
@@ -83,7 +84,7 @@ fun AppListScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
-                                    .background(Color.White, RoundedCornerShape(16.dp)) // карточка
+                                    .background(Color.White, RoundedCornerShape(16.dp))
                                     .padding(8.dp)
                                     .clickable { onAppClick(app) },
                                 verticalAlignment = Alignment.CenterVertically
@@ -98,7 +99,7 @@ fun AppListScreen(
                                     Text(app.name, fontWeight = FontWeight.Bold)
                                     Text(app.short_description)
                                     Text(
-                                        "Категория: $categoryName", // теперь выводим название
+                                        "Категория: $categoryName",
                                         fontSize = 12.sp,
                                         color = Color.DarkGray
                                     )
@@ -111,6 +112,7 @@ fun AppListScreen(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

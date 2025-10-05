@@ -22,9 +22,9 @@ data class App(
     val icon_url: String,
     val short_description: String,
     val full_description: String,
-    val category_id: Long,
+    val category_id: Int,
     val developer: String,
     val age_rating: String,
     val apk_url: String,
-    val screenshots: List<Screenshot>
+    val screenshots: List<Screenshot> = emptyList() // ← здесь по умолчанию пустой список
 )

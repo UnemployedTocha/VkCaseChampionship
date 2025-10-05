@@ -35,20 +35,21 @@ class AppViewModel : ViewModel() {
     private val _categoriesError = MutableStateFlow<String?>(null)
     val categoriesError: StateFlow<String?> = _categoriesError
 
-    fun loadCategories() {
-        viewModelScope.launch {
-            _isLoadingCategories.value = true
-            _categoriesError.value = null
-            try {
-                _categories.value = api.getCategories()
-            } catch (e: Exception) {
-                _categoriesError.value = "Ошибка загрузки категорий: ${e.message}"
-                _categories.value = emptyList()
-            } finally {
-                _isLoadingCategories.value = false
-            }
-        }
-    }
+//    fun loadCategories() {
+//        viewModelScope.launch {
+//            _isLoadingCategories.value = true
+//            _categoriesError.value = null
+//            try {
+////                _categories.value = api.getCategories()
+//
+//            } catch (e: Exception) {
+//                _categoriesError.value = "Ошибка загрузки категорий: ${e.message}"
+//                _categories.value = emptyList()
+//            } finally {
+//                _isLoadingCategories.value = false
+//            }
+//        }
+//    }
 
     // Функция для загрузки данных с бэка
     fun loadApps() {
@@ -56,8 +57,21 @@ class AppViewModel : ViewModel() {
             _isLoading.value = true
             _errorMessage.value = null
             try {
-                val response = api.getApps()
-                _apps.value = response
+                val response = api.getApp()       // AppResponse
+                val appItem = App(
+                    id = response.app.id,
+                    name = response.app.name,
+                    icon_url = response.app.icon_url,
+                    short_description = response.app.short_description,
+                    full_description = response.app.full_description,
+                    category_id = response.app.category_id,
+                    developer = response.app.developer,
+                    age_rating = response.app.age_rating,
+                    apk_url = response.app.apk_url,
+                    screenshots = response.app.screenshots ?: emptyList() // если null
+                )
+
+                _apps.value = listOf(appItem) // берём поле app и создаём список
             } catch (e: Exception) {
                 _errorMessage.value = "Ошибка загрузки данных: ${e.message}"
                 _apps.value = emptyList()

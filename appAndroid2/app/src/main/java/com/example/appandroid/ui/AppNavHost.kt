@@ -34,7 +34,7 @@ fun AppNavHost(
                 onContinue = {
                     navController.navigate("apps")
                     appViewModel.loadApps()
-                    appViewModel.loadCategories()
+//                    appViewModel.loadCategories()
                 }
             )
         }
@@ -75,6 +75,3 @@ fun AppNavHost(
         }
     }
 }
-
-
-
