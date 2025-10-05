@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"backend/internal/models"
+	"strconv"
 	// "backend/internal/repository"
 	// "errors"
 	"log/slog"
@@ -13,7 +14,8 @@ import (
 )
 
 type GetAppHandler interface {
-	GetAppById(orderUid string) (models.App, error)
+	GetAppById(appId int) (models.App, error)
+	// SaveApp(app models.App) (models.App, error)
 }
 
 type Request struct {
@@ -45,11 +47,20 @@ func NewGetAppHandler(getAppHandler GetAppHandler, log *slog.Logger) http.Handle
 			return
 		}
 
-		log.Info("app_id received", slog.Any("request", appId))
+		id, err := strconv.Atoi(appId)
+		if err != nil {
+			log.Error("invalid app_id format", slog.Any("request", id))
+			render.JSON(w, r, Response{
+				Status: "Error",
+				Error:  "invalid app_id, must be a number",
+			})
+			return
+		}
 
-		order, err := getAppHandler.GetAppById(appId)
+		log.Info("app_id received", slog.Any("request", id))
 
-		// TODO: переписать в свич кейс
+		order, err := getAppHandler.GetAppById(int(id))
+
 		if err != nil {
 			// TODO: добавить обработку разных ошибок, из repository.errors
 		}
