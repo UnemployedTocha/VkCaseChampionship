@@ -19,16 +19,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.appandroid.model.App
+import com.example.appandroid.model.Categories
 import com.example.appandroid.model.Screenshot
 
 @Composable
 fun AppListScreen(
     apps: List<App>,
+    categories: List<Categories>, // теперь сюда передаем список категорий
     onAppClick: (App) -> Unit,
     onCategoryClick: () -> Unit,
     isLoading: Boolean = false,
     errorMessage: String? = null
 ) {
+    // Для удобства: сразу словарь id -> название
+    val categoryMap = categories.associateBy({ it.id.toLong() }, { it.name })
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,21 +67,23 @@ fun AppListScreen(
                 )
             }
             else -> {
-                // >>> ВОТ ТУТ ОБОРАЧИВАЕМ СПИСОК В СЕРЫЙ БЛОК
+                // серый блок для списка
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(24.dp))
-                        .background(Color(0xFFE7E7E7)) // светло-серый фон
+                        .clip(RoundedCornerShape(24.dp)) // скругленные углы
+                        .background(Color(0xFFE7E7E7))
                         .padding(8.dp)
                 ) {
                     LazyColumn {
                         items(apps) { app ->
+                            val categoryName = categoryMap[app.category_id] ?: "Неизвестно"
+
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
-                                    .background(Color(0xFFE7E7E7)) // каждый элемент — белая карточка
+                                    .background(Color.White, RoundedCornerShape(16.dp)) // карточка
                                     .padding(8.dp)
                                     .clickable { onAppClick(app) },
                                 verticalAlignment = Alignment.CenterVertically
@@ -84,14 +91,14 @@ fun AppListScreen(
                                 Box(
                                     modifier = Modifier
                                         .size(48.dp)
-                                        .background(Color.Gray)
+                                        .background(Color.Gray, RoundedCornerShape(8.dp))
                                 )
                                 Spacer(Modifier.width(12.dp))
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(app.name, fontWeight = FontWeight.Bold)
                                     Text(app.short_description)
                                     Text(
-                                        "Категория: ${app.category_id}",
+                                        "Категория: $categoryName", // теперь выводим название
                                         fontSize = 12.sp,
                                         color = Color.DarkGray
                                     )
@@ -105,10 +112,14 @@ fun AppListScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun AppListScreenPreview() {
+    val mockCategories = listOf(
+        Categories(2, "Общение"),
+        Categories(3, "Браузеры")
+    )
+
     val mockApps = listOf(
         App(
             id = 1,
@@ -136,5 +147,10 @@ fun AppListScreenPreview() {
         )
     )
 
-    AppListScreen(apps = mockApps, onAppClick = {}, onCategoryClick = {})
+    AppListScreen(
+        apps = mockApps,
+        categories = mockCategories,
+        onAppClick = {},
+        onCategoryClick = {}
+    )
 }
