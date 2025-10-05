@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appandroid.api.createApiService
 import com.example.appandroid.model.App
+import com.example.appandroid.model.Categories
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,29 @@ class AppViewModel : ViewModel() {
 
     // Экземпляр ApiService
     private val api = createApiService()
+    private val _categories = MutableStateFlow<List<Categories>>(emptyList())
+    val categories: StateFlow<List<Categories>> = _categories
+
+    private val _isLoadingCategories = MutableStateFlow(false)
+    val isLoadingCategories: StateFlow<Boolean> = _isLoadingCategories
+
+    private val _categoriesError = MutableStateFlow<String?>(null)
+    val categoriesError: StateFlow<String?> = _categoriesError
+
+    fun loadCategories() {
+        viewModelScope.launch {
+            _isLoadingCategories.value = true
+            _categoriesError.value = null
+            try {
+                _categories.value = api.getCategories()
+            } catch (e: Exception) {
+                _categoriesError.value = "Ошибка загрузки категорий: ${e.message}"
+                _categories.value = emptyList()
+            } finally {
+                _isLoadingCategories.value = false
+            }
+        }
+    }
 
     // Функция для загрузки данных с бэка
     fun loadApps() {

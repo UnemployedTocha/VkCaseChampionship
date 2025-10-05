@@ -33,7 +33,8 @@ fun AppNavHost(
 
         // Список приложений
         composable("apps") {
-            val appsState = appViewModel.apps.collectAsState()       // реактивно собираем список приложений
+            val appsState =
+                appViewModel.apps.collectAsState()       // реактивно собираем список приложений
             val isLoading = appViewModel.isLoading.collectAsState()  // состояние загрузки
             val errorMessage = appViewModel.errorMessage.collectAsState() // ошибки
 
@@ -52,31 +53,41 @@ fun AppNavHost(
 
         // Список категорий (пока что моки)
         composable("categories") {
+            val categoriesState = appViewModel.categories.collectAsState()
+            val isLoading = appViewModel.isLoadingCategories.collectAsState()
+            val errorMessage = appViewModel.categoriesError.collectAsState()
+
+            // Запускаем загрузку, если список пуст
+            if (categoriesState.value.isEmpty() && !isLoading.value) {
+                appViewModel.loadCategories()
+            }
+
             CategoryListScreen(
-                categories = listOf(
-                    com.example.appandroid.model.Categories(1, "Аркады"),
-                    com.example.appandroid.model.Categories(2, "Финансы"),
-                    com.example.appandroid.model.Categories(3, "Игры")
-                ),
-                onCategoryClick = { id ->
-                    navController.navigate("apps") // фильтрацию можно добавить позже
-                }
+                categories = categoriesState.value,
+                onCategoryClick = { categoryId ->
+                    // Например, можно фильтровать приложения по categoryId
+                    navController.navigate("apps")
+                },
+                isLoading = isLoading.value,
+                errorMessage = errorMessage.value
             )
         }
 
-        // Детали приложения
+
         composable("appDetail/{appId}") { backStackEntry ->
             val appId = backStackEntry.arguments?.getString("appId")?.toIntOrNull()
-            val appsState = appViewModel.apps.collectAsState() // реактивно собираем список приложений
-            val app = appsState.value.find { it.id == appId }
-
-            if (app != null) {
-                AppDetailScreen(
-                    app = app,
-                    onBack = { navController.popBackStack() }
-                )
+            if (appId != null) {
+                val appsState = appViewModel.apps.collectAsState()
+                val app = appsState.value.find { app -> app.id == appId }
+                if (app != null) {
+                    AppDetailScreen(
+                        app = app,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
             }
         }
     }
 }
+
 

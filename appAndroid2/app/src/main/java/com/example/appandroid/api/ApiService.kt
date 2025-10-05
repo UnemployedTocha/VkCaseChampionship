@@ -1,6 +1,8 @@
 package com.example.appandroid.api
 
 import com.example.appandroid.model.App
+import com.example.appandroid.model.Categories
+import com.example.appandroid.model.Screenshot
 import retrofit2.http.GET
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -10,6 +12,8 @@ import okhttp3.MediaType.Companion.toMediaType
 interface ApiService {
     @GET("apps") // эндпоинт на твоём бэке
     suspend fun getApps(): List<App>
+    @GET("categories")
+    suspend fun getCategories(): List<Categories>
 }
 fun createApiService(): ApiService {
     val contentType = "application/json".toMediaType()
