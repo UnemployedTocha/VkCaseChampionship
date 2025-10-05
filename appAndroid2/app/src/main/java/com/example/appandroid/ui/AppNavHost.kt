@@ -1,105 +1,82 @@
 package com.example.appandroid.ui
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.appandroid.model.App
-import com.example.appandroid.model.Categories
-import com.example.appandroid.model.Screenshot
 import com.example.appandroid.ui.screens.*
+import com.example.appandroid.viewmodel.AppViewModel
 
 @Composable
-fun AppNavHost(navController: androidx.navigation.NavHostController) {
+fun AppNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    appViewModel: AppViewModel = viewModel()
+) {
     NavHost(
         navController = navController,
-        startDestination = "welcome"
+        startDestination = "welcome",
+        modifier = modifier
     ) {
         // Экран приветствия
         composable("welcome") {
             WelcomeScreen(
-                onContinue = { navController.navigate("apps") }
+                onContinue = {
+                    navController.navigate("apps")
+                    appViewModel.loadApps() // загружаем приложения при входе
+                }
             )
         }
 
         // Список приложений
         composable("apps") {
-            // временные данные-заглушки, потом подгрузим из ViewModel
-            val mockApps = listOf(
-                App(
-                    id = 1,
-                    name = "Max: общение",
-                    icon_url = "",
-                    short_description = "Ваш браузер…",
-                    full_description = "Описание...",
-                    category_id = 2,
-                    developer = "Meow Game",
-                    age_rating = "18+",
-                    apk_url = "",
-                    screenshots = listOf(Screenshot(1, ""))
-                ),
-                App(
-                    id = 2,
-                    name = "Max: браузер",
-                    icon_url = "",
-                    short_description = "Лучший браузер",
-                    full_description = "Описание...",
-                    category_id = 3,
-                    developer = "Max Devs",
-                    age_rating = "12+",
-                    apk_url = "",
-                    screenshots = emptyList()
-                )
-            )
+            val appsState = appViewModel.apps.collectAsState()       // реактивно собираем список приложений
+            val isLoading = appViewModel.isLoading.collectAsState()  // состояние загрузки
+            val errorMessage = appViewModel.errorMessage.collectAsState() // ошибки
 
             AppListScreen(
-                apps = mockApps,
-                onAppClick = { appId ->
-                    navController.navigate("appDetail/$appId")
+                apps = appsState.value,
+                onAppClick = { app ->
+                    navController.navigate("appDetail/${app.id}")
                 },
                 onCategoryClick = {
                     navController.navigate("categories")
-                }
+                },
+                isLoading = isLoading.value,
+                errorMessage = errorMessage.value
             )
         }
 
-        // Экран деталей приложения
-        composable(
-            route = "appDetail/{appId}",
-            arguments = listOf(navArgument("appId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val appId = backStackEntry.arguments?.getInt("appId") ?: 0
-            val mockApp = App(
-                id = appId,
-                name = "Приложение $appId",
-                icon_url = "",
-                short_description = "Краткое описание",
-                full_description = "Длинное описание",
-                category_id = 1,
-                developer = "Dev Studio",
-                age_rating = "16+",
-                apk_url = "",
-                screenshots = listOf(Screenshot(1, ""))
-            )
-            AppDetailScreen(app = mockApp)
-        }
-
-        // Список категорий
+        // Список категорий (пока что моки)
         composable("categories") {
-            val mockCategories = listOf(
-                Categories(1, "Аркады"),
-                Categories(2, "Финансы"),
-                Categories(3, "Игры")
-            )
             CategoryListScreen(
-                categories = mockCategories,
-                onCategoryClick = { categoryId ->
-                    // TODO: фильтр по категории, пока возврат на список приложений
-                    navController.navigate("apps")
+                categories = listOf(
+                    com.example.appandroid.model.Categories(1, "Аркады"),
+                    com.example.appandroid.model.Categories(2, "Финансы"),
+                    com.example.appandroid.model.Categories(3, "Игры")
+                ),
+                onCategoryClick = { id ->
+                    navController.navigate("apps") // фильтрацию можно добавить позже
                 }
             )
+        }
+
+        // Детали приложения
+        composable("appDetail/{appId}") { backStackEntry ->
+            val appId = backStackEntry.arguments?.getString("appId")?.toIntOrNull()
+            val appsState = appViewModel.apps.collectAsState() // реактивно собираем список приложений
+            val app = appsState.value.find { it.id == appId }
+
+            if (app != null) {
+                AppDetailScreen(
+                    app = app,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }
+

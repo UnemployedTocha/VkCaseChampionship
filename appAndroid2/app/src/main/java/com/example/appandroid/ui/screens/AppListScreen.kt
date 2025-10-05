@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,8 +22,10 @@ import com.example.appandroid.model.Screenshot
 @Composable
 fun AppListScreen(
     apps: List<App>,
-    onAppClick: (Int) -> Unit,
-    onCategoryClick: () -> Unit
+    onAppClick: (App) -> Unit,
+    onCategoryClick: () -> Unit,
+    isLoading: Boolean = false,
+    errorMessage: String? = null
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -34,35 +37,47 @@ fun AppListScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        LazyColumn {
-            items(apps) { app ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .background(Color.LightGray)
-                        .padding(8.dp)
-                        .clickable { onAppClick(app.id) }, // весь ряд кликабелен
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Иконка (заглушка, позже можно Coil подключить)
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(Color.Gray)
-                    )
-                    Spacer(Modifier.width(12.dp))
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(app.name, fontWeight = FontWeight.Bold)
-                        Text(app.short_description)
-                        Text(
-                            "Категория: ${app.category_id}", // пока id, потом имя категории
-                            fontSize = 12.sp,
-                            color = Color.DarkGray
-                        )
+        when {
+            isLoading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            errorMessage != null -> {
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            else -> {
+                LazyColumn {
+                    items(apps) { app ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .background(Color.LightGray)
+                                .padding(8.dp)
+                                .clickable { onAppClick(app) },
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .background(Color.Gray)
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(app.name, fontWeight = FontWeight.Bold)
+                                Text(app.short_description)
+                                Text(
+                                    "Категория: ${app.category_id}",
+                                    fontSize = 12.sp,
+                                    color = Color.DarkGray
+                                )
+                            }
+                        }
                     }
                 }
             }
